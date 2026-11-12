@@ -1,0 +1,102 @@
+<!doctype html>
+<html lang="es-AR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#1f7a4d">
+  <title>Mis calorías</title>
+  <link rel="manifest" href="manifest.webmanifest">
+  <link rel="icon" href="icono.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="estilos.css">
+</head>
+<body>
+  <header class="barra">
+    <button id="diaAnterior" class="icono" aria-label="Día anterior">‹</button>
+    <div class="fecha">
+      <strong id="fechaTitulo"></strong>
+      <button id="irHoy" class="enlace" hidden>Volver a hoy</button>
+    </div>
+    <button id="diaSiguiente" class="icono" aria-label="Día siguiente">›</button>
+  </header>
+
+  <main>
+    <section class="tarjeta resumen">
+      <svg class="anillo" viewBox="0 0 120 120" role="img" aria-labelledby="anilloTexto">
+        <circle cx="60" cy="60" r="52" class="anillo-fondo"/>
+        <circle cx="60" cy="60" r="52" class="anillo-avance" id="anilloAvance"/>
+        <text x="60" y="58" text-anchor="middle" class="anillo-numero" id="anilloNumero">0</text>
+        <text x="60" y="76" text-anchor="middle" class="anillo-sub" id="anilloTexto">kcal</text>
+      </svg>
+      <div class="resumen-datos">
+        <p id="estado" class="estado"></p>
+        <p class="limite">Límite diario: <strong id="limiteValor"></strong> kcal
+          <button id="editarLimite" class="enlace">Cambiar</button></p>
+      </div>
+    </section>
+
+    <section id="panelExceso" class="tarjeta exceso" hidden></section>
+
+    <div class="acciones">
+      <button id="btnAgregar" class="primario">＋ Agregar comida</button>
+      <label class="secundario" for="fotoRapida">📷 Con foto</label>
+      <input id="fotoRapida" type="file" accept="image/*" capture="environment" hidden>
+    </div>
+
+    <section id="listaComidas"></section>
+
+    <section class="tarjeta">
+      <h2>Últimos 7 días</h2>
+      <div id="historial" class="historial"></div>
+    </section>
+
+    <p class="aviso">Las calorías son estimaciones aproximadas: dependen de la receta, la marca y el tamaño
+      real de la porción. Esta app no reemplaza el consejo de un profesional de la nutrición.</p>
+  </main>
+
+  <dialog id="dlgAgregar">
+    <form method="dialog" class="dlg-cabecera">
+      <h2>Agregar comida</h2>
+      <button class="icono" aria-label="Cerrar">✕</button>
+    </form>
+    <div id="pasoBuscar">
+      <input id="buscar" type="search" placeholder="Buscar: milanesa, empanada, mate…" autocomplete="off">
+      <ul id="resultados" class="resultados"></ul>
+      <button id="btnPersonalizado" class="enlace">¿No está en la lista? Cargar a mano</button>
+    </div>
+    <div id="pasoDetalle" hidden>
+      <button id="volverBuscar" class="enlace">‹ Elegir otro alimento</button>
+      <h3 id="detNombre"></h3>
+      <p id="detInfo" class="tenue"></p>
+      <div id="camposPersonalizado" hidden>
+        <label>Nombre <input id="perNombre" type="text" maxlength="100"></label>
+        <label>Calorías (kcal) <input id="perKcal" type="number" inputmode="numeric" min="0" max="10000"></label>
+      </div>
+      <div id="camposCantidad" class="fila">
+        <label>Porciones <input id="detPorciones" type="number" inputmode="decimal" min="0.25" max="50" step="0.25" value="1"></label>
+        <label><span id="detUnidad">Gramos</span> <input id="detGramos" type="number" inputmode="numeric" min="1" max="10000"></label>
+      </div>
+      <label>Momento
+        <select id="detTipo">
+          <option value="desayuno">Desayuno</option>
+          <option value="almuerzo">Almuerzo</option>
+          <option value="merienda">Merienda</option>
+          <option value="cena">Cena</option>
+          <option value="colacion">Colación</option>
+        </select>
+      </label>
+      <div class="foto-fila">
+        <label class="secundario" for="detFoto">📷 <span id="detFotoTexto">Adjuntar foto</span></label>
+        <input id="detFoto" type="file" accept="image/*" capture="environment" hidden>
+        <img id="detFotoVista" alt="Foto de la comida" hidden>
+      </div>
+      <p class="tenue chico">La foto queda como registro visual. Todavía no calcula las calorías sola.</p>
+      <p id="detTotal" class="total"></p>
+      <div id="detAviso" class="aviso-exceso" hidden></div>
+      <button id="btnGuardar" class="primario ancho">Guardar</button>
+    </div>
+  </dialog>
+
+  <script src="alimentos.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
